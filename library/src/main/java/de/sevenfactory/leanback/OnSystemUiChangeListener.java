@@ -25,7 +25,7 @@
 package de.sevenfactory.leanback;
 
 /**
- * Listener to react to for System UI changes.
+ * Listener for System UI changes.
  */
 public interface OnSystemUiChangeListener {
     void onSystemUiChanged(boolean isSystemUiVisible);

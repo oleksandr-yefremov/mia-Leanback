@@ -25,7 +25,7 @@
 package de.sevenfactory.leanback;
 
 /**
- * Listener to react to for fullscreen changes.
+ * Listener for fullscreen changes.
  */
 public interface OnFullscreenChangeListener {
     void onFullscreenChanged(boolean isFullscreen);
