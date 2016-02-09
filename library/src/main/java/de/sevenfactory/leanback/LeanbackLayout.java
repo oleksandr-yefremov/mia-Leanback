@@ -34,7 +34,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-class LeanbackLayout extends FrameLayout implements SystemUiHelper.OnVisibilityChangeListener {
+public class LeanbackLayout extends FrameLayout implements SystemUiHelper.OnVisibilityChangeListener {
 
     private boolean mIsFullscreen;
 
