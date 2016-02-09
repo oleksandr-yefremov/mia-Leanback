@@ -149,6 +149,10 @@ public class LeanbackLayout extends FrameLayout {
         return mIsFullscreen;
     }
 
+    public boolean isSystemUiVisible() {
+        return mSystemUiHelper.isShowing();
+    }
+
     private void notifiyListener() {
         if (mFullscreenListener != null) {
             mFullscreenListener.onFullscreenChanged(mIsFullscreen);

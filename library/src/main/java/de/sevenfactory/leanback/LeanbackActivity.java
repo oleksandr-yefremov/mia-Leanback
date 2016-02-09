@@ -138,6 +138,14 @@ public abstract class LeanbackActivity extends AppCompatActivity implements OnFu
     }
 
     /**
+     * @return true  - if System UI is visible
+     *         false - if System UI is not visible
+     */
+    protected final boolean isSystemUiVisible() {
+        return mContainer.isSystemUiVisible();
+    }
+
+    /**
      * Configure the activity to force the layout to rotate into landscape
      * when it enters fullscreen mode.
      */
