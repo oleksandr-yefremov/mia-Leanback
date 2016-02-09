@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply from: 'https://raw.githubusercontent.com/thomaspaulmann/Advisor/release-1.0/advisor.gradle'
 
 android {
     compileSdkVersion 23
