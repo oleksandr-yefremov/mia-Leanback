@@ -29,6 +29,7 @@ import android.content.res.Configuration;
 import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +40,8 @@ import android.view.ViewGroup;
  * resizes the content.
  */
 public abstract class LeanbackActivity extends AppCompatActivity implements OnFullscreenChangeListener, OnSystemUiChangeListener {
+
+    private final static boolean DEBUG = false;
 
     private boolean mForceLandscape = false;
 
@@ -158,6 +161,10 @@ public abstract class LeanbackActivity extends AppCompatActivity implements OnFu
     @CallSuper
     @Override
     public void onFullscreenChanged(boolean isFullscreen) {
+        if (DEBUG) {
+            Log.d(getClass().getSimpleName(), "onFullscreenChanged() called with: " + "isFullscreen = [" + isFullscreen + "]");
+        }
+
         if (mForceLandscape && isFullscreen) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
         } else {
@@ -168,9 +175,12 @@ public abstract class LeanbackActivity extends AppCompatActivity implements OnFu
     /**
      * Override this method if you want to react to system ui changes
      */
+    @CallSuper
     @Override
     public void onSystemUiChanged(boolean isSystemUiVisible) {
-
+        if (DEBUG) {
+            Log.d(getClass().getSimpleName(), "onSystemUiChanged() called with: " + "isSystemUiVisible = [" + isSystemUiVisible + "]");
+        }
     }
 
     /**
