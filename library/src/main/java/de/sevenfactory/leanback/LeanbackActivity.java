@@ -2,10 +2,8 @@ package de.sevenfactory.leanback;
 
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,33 +21,33 @@ public class LeanbackActivity extends AppCompatActivity implements LeanbackLayou
     private LeanbackLayout mContainer;
     private RotationHelper mRotationHelper;
 
-    @CallSuper
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
-        View view = LayoutInflater.from(this).inflate(layoutResID, mContainer);
-        setContentView(view);
+        init();
+
+        LayoutInflater.from(this).inflate(layoutResID, mContainer, true);
     }
 
     @Override
     public void setContentView(View view) {
-        setContentView(view, null);
+        setContentView(view, view.getLayoutParams());
     }
 
     @Override
     public void setContentView(View view, ViewGroup.LayoutParams params) {
+        init();
+        addView(view);
+    }
+
+    private void init() {
         super.setContentView(R.layout.activity_leanback);
 
         mContainer = (LeanbackLayout) findViewById(R.id.leanback_container);
-
-        addView(view, params);
     }
 
-    private void addView(View view, ViewGroup.LayoutParams params) {
+    private void addView(View view) {
+        ViewGroup.LayoutParams params = view.getLayoutParams();
+
         if (params == null) {
             mContainer.addView(view);
         } else {
