@@ -77,6 +77,10 @@ public class LeanbackLayout extends FrameLayout {
         // Get parent activity
         Activity activity = ((Activity) getContext());
 
+        if(activity == null) {
+            throw new IllegalStateException("No activity available -> Consider a later creation of the LeanbackLayout.");
+        }
+
         // Create system ui helper
         mSystemUiHelper = new SystemUiHelper(activity);
     }
@@ -146,7 +150,6 @@ public class LeanbackLayout extends FrameLayout {
     }
 
     private void notifiyListener() {
-        // Notify
         if (mFullscreenListener != null) {
             mFullscreenListener.onFullscreenChanged(mIsFullscreen);
         }
