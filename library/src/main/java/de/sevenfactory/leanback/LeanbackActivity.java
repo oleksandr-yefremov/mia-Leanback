@@ -38,7 +38,7 @@ import android.view.ViewGroup;
  * status bar and navigation/system bar) with user interaction and
  * resizes the content.
  */
-public class LeanbackActivity extends AppCompatActivity implements LeanbackLayout.OnFullscreenChangeListener {
+public abstract class LeanbackActivity extends AppCompatActivity implements LeanbackLayout.OnFullscreenChangeListener {
 
     private boolean mForceLandscape = false;
 
