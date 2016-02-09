@@ -45,7 +45,7 @@ class RotationHelper implements SensorEventListener {
         mActivity = activity;
         
         mSensorManager = (SensorManager) activity.getSystemService(Context.SENSOR_SERVICE);
-        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
+        mSensor        = mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
     }
     
     public void resume() {

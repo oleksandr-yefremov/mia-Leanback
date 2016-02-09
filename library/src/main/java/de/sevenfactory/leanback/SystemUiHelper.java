@@ -55,7 +55,7 @@ class SystemUiHelper implements View.OnSystemUiVisibilityChangeListener {
     private final Handler  mHandler;
     private final Runnable mHideRunnable;
 
-    private final OnVisibilityChangeListener mListener;
+    private OnSystemUiChangeListener mListener;
 
     /* Constructors */
 
@@ -63,18 +63,18 @@ class SystemUiHelper implements View.OnSystemUiVisibilityChangeListener {
         this(activity, null);
     }
 
-    public SystemUiHelper(Activity activity, OnVisibilityChangeListener listener) {
+    public SystemUiHelper(Activity activity, OnSystemUiChangeListener listener) {
         this(activity, listener, true);
     }
 
-    public SystemUiHelper(Activity activity, OnVisibilityChangeListener listener, boolean autoHide) {
+    public SystemUiHelper(Activity activity, OnSystemUiChangeListener listener, boolean autoHide) {
         // Init
         mDecorView = activity.getWindow().getDecorView();
-        mListener = listener;
-        mAutoHide = autoHide;
+        mListener  = listener;
+        mAutoHide  = autoHide;
 
         // Delayed hide
-        mHandler = new Handler(Looper.getMainLooper());
+        mHandler      = new Handler(Looper.getMainLooper());
         mHideRunnable = new HideRunnable();
 
         // Listen for system UI visibility changes
@@ -122,8 +122,16 @@ class SystemUiHelper implements View.OnSystemUiVisibilityChangeListener {
         mHandler.postDelayed(mHideRunnable, delayMillis);
     }
 
-    public boolean isShowing() {
+    boolean isShowing() {
         return mIsShowing;
+    }
+
+    void setListener(OnSystemUiChangeListener listener) {
+        mListener = listener;
+    }
+
+    void removeListener() {
+        mListener = null;
     }
 
     /* Helpers */
@@ -134,7 +142,7 @@ class SystemUiHelper implements View.OnSystemUiVisibilityChangeListener {
 
     private void notifyListener() {
         if (mListener != null) {
-            mListener.onVisibilityChanged(isShowing());
+            mListener.onSystemUiChanged(isShowing());
         }
     }
 
@@ -142,7 +150,6 @@ class SystemUiHelper implements View.OnSystemUiVisibilityChangeListener {
 
     @Override
     public void onSystemUiVisibilityChange(int visibility) {
-        // Update state
         if (!mIsShowing && mAutoHide && ((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0)) {
             mIsShowing = true;
 
@@ -164,9 +171,5 @@ class SystemUiHelper implements View.OnSystemUiVisibilityChangeListener {
         }
     }
 
-    /* OnVisibilityChangeListener */
 
-    public interface OnVisibilityChangeListener {
-        void onVisibilityChanged(boolean visible);
-    }
 }

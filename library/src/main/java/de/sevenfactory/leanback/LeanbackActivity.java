@@ -29,6 +29,7 @@ import android.content.res.Configuration;
 import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +39,9 @@ import android.view.ViewGroup;
  * status bar and navigation/system bar) with user interaction and
  * resizes the content.
  */
-public abstract class LeanbackActivity extends AppCompatActivity implements LeanbackLayout.OnFullscreenChangeListener {
+public abstract class LeanbackActivity extends AppCompatActivity implements OnFullscreenChangeListener, OnSystemUiChangeListener {
+
+    private final static boolean DEBUG = false;
 
     private boolean mForceLandscape = false;
 
@@ -86,6 +89,7 @@ public abstract class LeanbackActivity extends AppCompatActivity implements Lean
         super.onStart();
 
         mContainer.setOnFullscreenChangeListener(this);
+        mContainer.setOnSystemUiChangeListener(this);
     }
 
     @Override
@@ -109,6 +113,7 @@ public abstract class LeanbackActivity extends AppCompatActivity implements Lean
     @Override
     protected void onStop() {
         mContainer.removeOnFullscreenChangeListener();
+        mContainer.removeOnSystemUiChangeListener();
 
         super.onStop();
     }
@@ -118,7 +123,7 @@ public abstract class LeanbackActivity extends AppCompatActivity implements Lean
     /**
      * Toggle fullscreen mode. If you want to know the current state,
      * pull it with {@link #isFullscreen()} or get it pushed by overriding
-     * {@link #onFullscreenChanged(boolean, boolean)}.
+     * {@link #onFullscreenChanged(boolean)} (boolean)}.
      */
     protected final boolean toggleFullscreen() {
         return mContainer.toggle();
@@ -151,15 +156,30 @@ public abstract class LeanbackActivity extends AppCompatActivity implements Lean
     }
 
     /**
-     * Override this method if you want to react to fullscreen or system ui changes
+     * Override this method if you want to react to fullscreen changes
      */
     @CallSuper
     @Override
-    public void onFullscreenChanged(boolean isFullscreen, boolean isSystemUiVisible) {
+    public void onFullscreenChanged(boolean isFullscreen) {
+        if (DEBUG) {
+            Log.d(getClass().getSimpleName(), "onFullscreenChanged() called with: " + "isFullscreen = [" + isFullscreen + "]");
+        }
+
         if (mForceLandscape && isFullscreen) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
         } else {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+        }
+    }
+
+    /**
+     * Override this method if you want to react to system ui changes
+     */
+    @CallSuper
+    @Override
+    public void onSystemUiChanged(boolean isSystemUiVisible) {
+        if (DEBUG) {
+            Log.d(getClass().getSimpleName(), "onSystemUiChanged() called with: " + "isSystemUiVisible = [" + isSystemUiVisible + "]");
         }
     }
 
