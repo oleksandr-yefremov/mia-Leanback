@@ -37,14 +37,13 @@ import android.widget.FrameLayout;
 public class LeanbackLayout extends FrameLayout {
 
 
-
     private ViewGroup.LayoutParams mEmbeddedLayoutParams;
     private ViewGroup.LayoutParams mFullscreenLayoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
     private OnFullscreenChangeListener mFullscreenListener;
-    private SystemUiHelper             mSystemUiHelper;
-    private Rect                       mWindowInsets;
-    private boolean                    mIsFullscreen;
+    private SystemUiHelper mSystemUiHelper;
+    private Rect mWindowInsets;
+    private boolean mIsFullscreen;
 
     public LeanbackLayout(Context context) {
         this(context, null);
@@ -94,6 +93,7 @@ public class LeanbackLayout extends FrameLayout {
         if (mSystemUiHelper == null) {
             init();
         }
+
         mSystemUiHelper.setListener(listener);
     }
 

@@ -17,8 +17,10 @@ public class MainActivity extends LeanbackActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Leanback experience
         forceFullscreenOnLandscape(true);
 
+        // Video View
         mVideoView = (VideoView) findViewById(R.id.video_view);
     }
 
