@@ -63,7 +63,8 @@ public class MainActivity extends LeanbackActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_fullscreen:
-                toggleFullscreen();
+                boolean isFullscreen = toggleFullscreen();
+                updateFullscreenButton(isFullscreen);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
