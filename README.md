@@ -25,28 +25,29 @@ dependencies {
 
 ## Integration
 
-Extend from the `LeanbackActivity`.
+1. Extend from `LeanbackActivity`.
 
-``` java
-public class MainActivity extends LeanbackActivity {
-    [...]
-}
-```
+ ``` java
+ public class MainActivity extends LeanbackActivity {
+     [...]
+ }
+ ```
 
-Configure your leanback experience, f.e. enter fullscreen in landscape.
+2. Configure your leanback experience, f.e. enter fullscreen on landscape.
 
-``` java
-@Override
-protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
-    
-    // Enter fullscreen in landscape
-    forceFullscreenOnLandscape(true);
+ ``` java
+ @Override
+ protected void onCreate(Bundle savedInstanceState) {
+     super.onCreate(savedInstanceState);
+     setContentView(R.layout.activity_main);
+     
+     // Enter fullscreen on landscape
+     forceFullscreenOnLandscape(true); 
+ 
+     [...] 
+ }
+ ```
 
-    [...]
-}
-```
+3. Leanback! 
 
-Leanback! 
 :tv:
