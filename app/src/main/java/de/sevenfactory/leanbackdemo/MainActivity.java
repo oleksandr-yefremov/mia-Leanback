@@ -40,8 +40,8 @@ public class MainActivity extends LeanbackActivity {
     /**
      * Update icon of Fullscreen Menu Item
      */
-    private void updateFullscreenButton(boolean isFullscreen) {
-        if (isFullscreen) {
+    private void updateFullscreenButton() {
+        if (isFullscreen()) {
             mFullscreenButton.setIcon(R.drawable.ic_fullscreen_exit_white_36dp);
         } else {
             mFullscreenButton.setIcon(R.drawable.ic_fullscreen_white_36dp);
@@ -63,8 +63,8 @@ public class MainActivity extends LeanbackActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_fullscreen:
-                boolean isFullscreen = toggleFullscreen();
-                updateFullscreenButton(isFullscreen);
+                toggleFullscreen();
+                updateFullscreenButton();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -77,6 +77,6 @@ public class MainActivity extends LeanbackActivity {
     public void onFullscreenChanged(boolean isFullscreen, boolean isSystemUiVisible) {
         super.onFullscreenChanged(isFullscreen, isSystemUiVisible);
 
-        updateFullscreenButton(isFullscreen);
+        updateFullscreenButton();
     }
 }
