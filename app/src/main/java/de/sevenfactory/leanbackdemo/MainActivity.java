@@ -37,17 +37,6 @@ public class MainActivity extends LeanbackActivity {
         mVideoView.start();
     }
 
-    /**
-     * Update icon of Fullscreen Menu Item
-     */
-    private void updateFullscreenButton() {
-        if (isFullscreen()) {
-            mFullscreenButton.setIcon(R.drawable.ic_fullscreen_exit_white_36dp);
-        } else {
-            mFullscreenButton.setIcon(R.drawable.ic_fullscreen_white_36dp);
-        }
-    }
-
     /* Menu */
 
     @Override
@@ -64,7 +53,6 @@ public class MainActivity extends LeanbackActivity {
         switch (item.getItemId()) {
             case R.id.menu_fullscreen:
                 toggleFullscreen();
-                updateFullscreenButton();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -74,9 +62,13 @@ public class MainActivity extends LeanbackActivity {
     /* OnFullscreenChangeListener */
 
     @Override
-    public void onFullscreenChanged(boolean isFullscreen, boolean isSystemUiVisible) {
-        super.onFullscreenChanged(isFullscreen, isSystemUiVisible);
+    public void onFullscreenChanged(boolean isFullscreen) {
+        super.onFullscreenChanged(isFullscreen);
 
-        updateFullscreenButton();
+        if (isFullscreen) {
+            mFullscreenButton.setIcon(R.drawable.ic_fullscreen_exit_white_36dp);
+        } else {
+            mFullscreenButton.setIcon(R.drawable.ic_fullscreen_white_36dp);
+        }
     }
 }

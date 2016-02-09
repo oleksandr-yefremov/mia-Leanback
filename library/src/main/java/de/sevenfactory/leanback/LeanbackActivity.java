@@ -38,7 +38,7 @@ import android.view.ViewGroup;
  * status bar and navigation/system bar) with user interaction and
  * resizes the content.
  */
-public abstract class LeanbackActivity extends AppCompatActivity implements LeanbackLayout.OnFullscreenChangeListener {
+public abstract class LeanbackActivity extends AppCompatActivity implements OnFullscreenChangeListener, OnSystemUiChangeListener {
 
     private boolean mForceLandscape = false;
 
@@ -86,6 +86,7 @@ public abstract class LeanbackActivity extends AppCompatActivity implements Lean
         super.onStart();
 
         mContainer.setOnFullscreenChangeListener(this);
+        mContainer.setOnSystemUiChangeListener(this);
     }
 
     @Override
@@ -109,6 +110,7 @@ public abstract class LeanbackActivity extends AppCompatActivity implements Lean
     @Override
     protected void onStop() {
         mContainer.removeOnFullscreenChangeListener();
+        mContainer.removeOnSystemUiChangeListener();
 
         super.onStop();
     }
@@ -118,7 +120,7 @@ public abstract class LeanbackActivity extends AppCompatActivity implements Lean
     /**
      * Toggle fullscreen mode. If you want to know the current state,
      * pull it with {@link #isFullscreen()} or get it pushed by overriding
-     * {@link #onFullscreenChanged(boolean, boolean)}.
+     * {@link #onFullscreenChanged(boolean)} (boolean)}.
      */
     protected final boolean toggleFullscreen() {
         return mContainer.toggle();
@@ -151,16 +153,24 @@ public abstract class LeanbackActivity extends AppCompatActivity implements Lean
     }
 
     /**
-     * Override this method if you want to react to fullscreen or system ui changes
+     * Override this method if you want to react to fullscreen changes
      */
     @CallSuper
     @Override
-    public void onFullscreenChanged(boolean isFullscreen, boolean isSystemUiVisible) {
+    public void onFullscreenChanged(boolean isFullscreen) {
         if (mForceLandscape && isFullscreen) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
         } else {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
         }
+    }
+
+    /**
+     * Override this method if you want to react to system ui changes
+     */
+    @Override
+    public void onSystemUiChanged(boolean isSystemUiVisible) {
+
     }
 
     /**

@@ -34,18 +34,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-public class LeanbackLayout extends FrameLayout implements SystemUiHelper.OnVisibilityChangeListener {
+public class LeanbackLayout extends FrameLayout {
 
-    private boolean mIsFullscreen;
 
-    private SystemUiHelper mSystemUiHelper;
-
-    private Rect mWindowInsets;
 
     private ViewGroup.LayoutParams mEmbeddedLayoutParams;
     private ViewGroup.LayoutParams mFullscreenLayoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
-    private OnFullscreenChangeListener mListener;
+    private OnFullscreenChangeListener mFullscreenListener;
+    private SystemUiHelper             mSystemUiHelper;
+    private Rect                       mWindowInsets;
+    private boolean                    mIsFullscreen;
 
     public LeanbackLayout(Context context) {
         this(context, null);
@@ -57,39 +56,49 @@ public class LeanbackLayout extends FrameLayout implements SystemUiHelper.OnVisi
 
     public LeanbackLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-    }
 
-    @Override
-    protected void onFinishInflate() {
-        super.onFinishInflate();
-
-        // Styling
-        setBackgroundColor(Color.BLACK);
-
-        // Defaults
-        mIsFullscreen = false;
+        init();
     }
 
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
 
-        // Get parent activity
-        Activity activity = ((Activity) getContext());
-
-        // Create system ui helper
-        mSystemUiHelper = new SystemUiHelper(activity, this);
-
         // Save LayoutParams for embedded mode
         mEmbeddedLayoutParams = getLayoutParams();
     }
 
+    private void init() {
+        // Styling
+        setBackgroundColor(Color.BLACK);
+
+        // Defaults
+        mIsFullscreen = false;
+
+        // Get parent activity
+        Activity activity = ((Activity) getContext());
+
+        // Create system ui helper
+        mSystemUiHelper = new SystemUiHelper(activity);
+    }
+
     public void setOnFullscreenChangeListener(OnFullscreenChangeListener listener) {
-        mListener = listener;
+        mFullscreenListener = listener;
     }
 
     public void removeOnFullscreenChangeListener() {
-        mListener = null;
+        mFullscreenListener = null;
+    }
+
+    public void setOnSystemUiChangeListener(OnSystemUiChangeListener listener) {
+        if (mSystemUiHelper == null) {
+            init();
+        }
+        mSystemUiHelper.setListener(listener);
+    }
+
+    public void removeOnSystemUiChangeListener() {
+        mSystemUiHelper.removeListener();
     }
 
     /* FullscreenHandling */
@@ -113,6 +122,9 @@ public class LeanbackLayout extends FrameLayout implements SystemUiHelper.OnVisi
         // Update layout params
         setLayoutParams(mEmbeddedLayoutParams);
         updateSystemUiPadding();
+
+        // Notify
+        notifiyListener();
     }
 
     void enterFullscreen() {
@@ -124,16 +136,19 @@ public class LeanbackLayout extends FrameLayout implements SystemUiHelper.OnVisi
         // Update layout params
         setLayoutParams(mFullscreenLayoutParams);
         updateSystemUiPadding();
+
+        // Notify
+        notifiyListener();
     }
 
     public boolean isFullscreen() {
         return mIsFullscreen;
     }
 
-    private void notifiyListener(boolean isSystemUiVisible) {
+    private void notifiyListener() {
         // Notify
-        if (mListener != null) {
-            mListener.onFullscreenChanged(mIsFullscreen, isSystemUiVisible);
+        if (mFullscreenListener != null) {
+            mFullscreenListener.onFullscreenChanged(mIsFullscreen);
         }
     }
 
@@ -216,18 +231,5 @@ public class LeanbackLayout extends FrameLayout implements SystemUiHelper.OnVisi
                 view.setPadding(0, 0, 0, 0);
             }
         }
-    }
-
-    /* OnVisibilityChangeListener */
-
-    @Override
-    public void onVisibilityChanged(boolean visible) {
-        notifiyListener(visible);
-    }
-
-    /* OnFullscreenChangeListener */
-
-    public interface OnFullscreenChangeListener {
-        void onFullscreenChanged(boolean isFullscreen, boolean isSystemUiVisible);
     }
 }
