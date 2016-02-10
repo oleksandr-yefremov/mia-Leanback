@@ -13,3 +13,6 @@ android:
 
 script:
     - ./gradlew clean build
+    
+notifications:
+  email: false
