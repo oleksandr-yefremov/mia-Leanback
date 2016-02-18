@@ -36,13 +36,15 @@ class SystemUiHelper implements View.OnSystemUiVisibilityChangeListener {
     interface Flags {
         int SHOW = View.SYSTEM_UI_FLAG_LAYOUT_STABLE            // Stay stable during layout changes
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION    // Recalc layout  on navigation bar changes
-                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;        // Recalc layout  on system UI changes
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN         // Recalc layout  on system UI changes
+                | View.SYSTEM_UI_FLAG_IMMERSIVE;                // Immersive mode
 
         int HIDE = View.SYSTEM_UI_FLAG_LAYOUT_STABLE            // Stay stable during layout changes
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION    // Recalc layout on navigation bar changes
                 | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN         // Recalc layout on system UI changes
                 | View.SYSTEM_UI_FLAG_FULLSCREEN                // Hide System UI
-                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;          // Hide navgation bar
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION           // Hide navgation bar
+                | View.SYSTEM_UI_FLAG_IMMERSIVE;                // Immersive mode
     }
 
     // Auto hide delay
@@ -170,6 +172,4 @@ class SystemUiHelper implements View.OnSystemUiVisibilityChangeListener {
             hide();
         }
     }
-
-
 }
