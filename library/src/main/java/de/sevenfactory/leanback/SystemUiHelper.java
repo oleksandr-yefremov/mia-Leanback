@@ -33,6 +33,7 @@ import android.view.View;
 class SystemUiHelper implements View.OnSystemUiVisibilityChangeListener {
 
     // System UI visibility flags
+    @SuppressWarnings({"InlinedApi", "deprecation"})
     interface Flags {
         int SHOW = View.SYSTEM_UI_FLAG_LAYOUT_STABLE            // Stay stable during layout changes
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION    // Recalc layout  on navigation bar changes
